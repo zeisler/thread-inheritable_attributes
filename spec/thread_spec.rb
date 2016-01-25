@@ -28,13 +28,13 @@ RSpec.describe Thread do
     end
   end
 
-  describe ".inheritable_attributes" do
+  describe "#inheritable_attributes" do
     it "defaults to a Hash" do
       expect(Thread.current.inheritable_attributes).to be_an_instance_of(Hash)
     end
   end
 
-  describe ".inheritable_attributes=" do
+  describe "#inheritable_attributes=" do
     it "defaults to a Hash" do
       Thread.current.inheritable_attributes = "hello"
       expect(Thread.current.inheritable_attributes).to eq "hello"
