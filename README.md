@@ -23,14 +23,14 @@ Or install it yourself as:
 ```ruby
 require "thread_variable_cascade/thread"
 
-Thread.current.inheritable_attributes = { :request_id => SecureRandom.uuid }
+Thread.current.set_inheritable_attributes(:request_id, SecureRandom.uuid)
 
 thread = Thread.new {
-          Thread.current.inheritable_attributes
+          Thread.current.get_inheritable_attributes(:request_id)
         }
 thread.join
 thread.value
-  #=> { :request_id => "80f58e0f-0564-487d-8f92-4cff8237af24" }
+  #=> "80f58e0f-0564-487d-8f92-4cff8237af24"
 ```
 
 ## Development

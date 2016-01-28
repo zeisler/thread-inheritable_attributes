@@ -1,28 +1,33 @@
 require "thread"
 
 class Thread
+  INHERITABLE_ATTRIBUTES_MUTEX = Mutex.new
   alias_method :_initialize, :initialize
 
   def initialize(*args, &block)
     inheritable_attributes = Thread.current.inheritable_attributes
     _initialize(*args) do
-      Thread.current.inheritable_attributes = inheritable_attributes
+      Thread.current[:inheritable_attributes] = inheritable_attributes
       block.call
     end
   end
 
-  # Mutating the resulting hash may not change value.
-  # Instead add new key with the following:
-  # Thread#inheritable_attributes = Thread#inheritable_attributes.merge(:key => :value)
-  # @return [Hash]
-  def inheritable_attributes
-    self[:inheritable_attributes] || {}
+  def get_inheritable_attribute(key)
+    INHERITABLE_ATTRIBUTES_MUTEX.synchronize do
+      inheritable_attributes[key]
+    end
   end
 
-  # @param [Hash] value
-  # @return [Thread]
-  def inheritable_attributes=(value)
-    self[:inheritable_attributes] = value
-    self
+  def set_inheritable_attribute(key, value)
+    INHERITABLE_ATTRIBUTES_MUTEX.synchronize do
+      inheritable_attributes[key] = value
+    end
   end
+
+  protected
+
+  def inheritable_attributes
+    self[:inheritable_attributes] ||= {}
+  end
+
 end
