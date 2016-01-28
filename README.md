@@ -23,10 +23,10 @@ Or install it yourself as:
 ```ruby
 require "thread/inheritable_attributes"
 
-Thread.current.set_inheritable_attributes(:request_id, SecureRandom.uuid)
+Thread.current.set_inheritable_attribute(:request_id, SecureRandom.uuid)
 
 thread = Thread.new {
-          Thread.current.get_inheritable_attributes(:request_id)
+          Thread.current.get_inheritable_attribute(:request_id)
         }
 thread.join
 thread.value
