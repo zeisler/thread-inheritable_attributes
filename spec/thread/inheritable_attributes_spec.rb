@@ -1,4 +1,4 @@
-require "thread_variable_cascade/thread"
+require "thread/inheritable_attributes"
 
 RSpec.describe Thread do
   after { Thread.current[:inheritable_attributes] = nil }

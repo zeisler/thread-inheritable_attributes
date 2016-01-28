@@ -1,4 +1,4 @@
-# Thread Variable Cascade
+# Thread Inheritable Attributes
 
 Passes thread variables to child spawned threads. Main use case is enabling logging in child thread to keep context of a request.
 
@@ -7,7 +7,7 @@ Passes thread variables to child spawned threads. Main use case is enabling logg
 Add this line to your application's Gemfile:
 
 ```ruby
-gem "thread_variable_cascade"
+gem "thread-inheritable_attributes"
 ```
 
 And then execute:
@@ -16,12 +16,12 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install thread_variable_cascade
+    $ gem install thread-inheritable_attributes
 
 ## Usage
 
 ```ruby
-require "thread_variable_cascade/thread"
+require "thread/inheritable_attributes"
 
 Thread.current.set_inheritable_attributes(:request_id, SecureRandom.uuid)
 
