@@ -26,6 +26,13 @@ RSpec.describe Thread do
         expect(thread.value).to eq [thread.__id__, Thread.current[:inheritable_attributes]]
       end
     end
+
+    it "any args given are passed to the block" do
+      arr     = []
+      a, b, c = 1, 2, 3
+      Thread.new(a, b, c) { |d, e, f| arr << d << e << f }.join
+      expect(arr).to eq [1, 2, 3]
+    end
   end
 
   describe "#get_inheritable_attribute" do
@@ -37,7 +44,7 @@ RSpec.describe Thread do
 
 
     context "for a known key" do
-      before { Thread.current[:inheritable_attributes] = {my_found_key: "here i am"} }
+      before { Thread.current[:inheritable_attributes] = { my_found_key: "here i am" } }
       it "returns the hash value" do
         expect(Thread.current.get_inheritable_attribute(:my_found_key)).to eq "here i am"
       end
@@ -47,7 +54,7 @@ RSpec.describe Thread do
   describe "#set_inheritable_attribute" do
     it "sets a value to a key" do
       Thread.current.set_inheritable_attribute(:key_thing, :value_thing)
-      expect(Thread.current[:inheritable_attributes]).to eq({:key_thing=>:value_thing})
+      expect(Thread.current[:inheritable_attributes]).to eq({ :key_thing => :value_thing })
     end
   end
 end

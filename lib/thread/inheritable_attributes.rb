@@ -6,9 +6,9 @@ class Thread
 
   def initialize(*args, &block)
     inheritable_attributes = Thread.current.inheritable_attributes
-    _initialize(*args) do
+    _initialize(*args) do |*block_args|
       Thread.current[:inheritable_attributes] = inheritable_attributes
-      block.call
+      block.call(block_args)
     end
   end
 
