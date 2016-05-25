@@ -1,3 +1,8 @@
+## Current Release v1.0.0
+
+No changes from v0.2.0, but it is being promoted to production ready.
+It's been used on multiple production environments for 3 months without issues.
+
 ## Current Release v0.2.0
 
 ### Fix
