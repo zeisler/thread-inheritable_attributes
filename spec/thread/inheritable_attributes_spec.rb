@@ -55,6 +55,25 @@ RSpec.describe Thread do
     it "sets a value to a key" do
       Thread.current.set_inheritable_attribute(:key_thing, :value_thing)
       expect(Thread.current[:inheritable_attributes]).to eq({ :key_thing => :value_thing })
+  context "when state is changed from child thread" do
+    it "effects the state in the parent thread" do
+      Thread.current.set_inheritable_attribute(:test_value, :i_was_set_in_the_parent)
+      Thread.new {
+        Thread.current.set_inheritable_attribute(:test_value, :i_was_set_in_the_child)
+        [Thread.current.__id__, Thread.current.get_inheritable_attribute(:test_value)]
+      }.join
+      expect(Thread.current.get_inheritable_attribute(:test_value)).to eq :i_was_set_in_the_child
+    end
+  end
+
+  context "when state is changed from parent thread" do
+    it "effects the state in the child thread" do
+      thread = Thread.new {
+        Thread.current.get_inheritable_attribute(:test_value)
+      }
+      Thread.current.set_inheritable_attribute(:test_value, :set_in_parent_after_child_init)
+      thread.join
+      expect(thread.value).to eq :set_in_parent_after_child_init
     end
   end
 end
