@@ -10,6 +10,14 @@ Add this line to your application's Gemfile:
 gem "thread-inheritable_attributes"
 ```
 
+[request_store](https://github.com/steveklabnik/request_store) is an optional dependency for when working within the context of a multi-threaded web server. 
+
+If using Rails no config is required, except including the gem. When using other Rack based frameworks see [docs](https://github.com/steveklabnik/request_store#no-rails-no-problem) for including middleware.
+
+```ruby
+gem "request_store"
+```
+
 And then execute:
 
     $ bundle

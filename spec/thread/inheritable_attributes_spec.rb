@@ -1,14 +1,14 @@
 require "thread/inheritable_attributes"
 
 RSpec.describe Thread do
-  after { Thread.current[:inheritable_attributes] = nil }
+  after { Thread::RequestStore[:inheritable_attributes] = nil }
   describe ".new" do
     context "when inheritable_attributes is nil" do
-      before { Thread.current[:inheritable_attributes] = nil }
+      before { Thread::RequestStore[:inheritable_attributes] = nil }
       it "returns an empty hash when accessed" do
 
         thread = Thread.new {
-          [Thread.current.__id__, Thread.current[:inheritable_attributes]]
+          [Thread.current.__id__, Thread::RequestStore[:inheritable_attributes]]
         }
         thread.join
         expect(thread.value).to eq [thread.__id__, {}]
@@ -16,14 +16,14 @@ RSpec.describe Thread do
     end
 
     context "when inheritable_attributes has a value" do
-      before { Thread.current[:inheritable_attributes] = { :rory_request_id => SecureRandom.uuid } }
+      before { Thread::RequestStore[:inheritable_attributes] = { :rory_request_id => SecureRandom.uuid } }
       it "copies inheritable_attributes when creating a new thread" do
 
         thread = Thread.new {
-          [Thread.current.__id__, Thread.current[:inheritable_attributes]]
+          [Thread.current.__id__, Thread::RequestStore[:inheritable_attributes]]
         }
         thread.join
-        expect(thread.value).to eq [thread.__id__, Thread.current[:inheritable_attributes]]
+        expect(thread.value).to eq [thread.__id__, Thread::RequestStore[:inheritable_attributes]]
       end
     end
 
@@ -44,7 +44,7 @@ RSpec.describe Thread do
 
 
     context "for a known key" do
-      before { Thread.current[:inheritable_attributes] = { my_found_key: "here i am" } }
+      before { Thread::RequestStore[:inheritable_attributes] = { my_found_key: "here i am" } }
       it "returns the hash value" do
         expect(Thread.current.get_inheritable_attribute(:my_found_key)).to eq "here i am"
       end
@@ -54,7 +54,10 @@ RSpec.describe Thread do
   describe "#set_inheritable_attribute" do
     it "sets a value to a key" do
       Thread.current.set_inheritable_attribute(:key_thing, :value_thing)
-      expect(Thread.current[:inheritable_attributes]).to eq({ :key_thing => :value_thing })
+      expect(Thread::RequestStore[:inheritable_attributes]).to eq({ :key_thing => :value_thing })
+    end
+  end
+
   context "when state is changed from child thread" do
     it "effects the state in the parent thread" do
       Thread.current.set_inheritable_attribute(:test_value, :i_was_set_in_the_parent)
