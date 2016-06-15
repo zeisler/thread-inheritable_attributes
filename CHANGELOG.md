@@ -1,4 +1,4 @@
-## v1.1.0.beta1 - 2016-06-14
+## v1.1.0 - 2016-06-14
 
 ### Fix
 Addresses the use of `Thread.current` and the potential issues when used in the context of multi-threaded web server and replaces it with `RequestStore` when the gem can be loaded.
