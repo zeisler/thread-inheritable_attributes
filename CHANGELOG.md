@@ -1,3 +1,10 @@
+## v2.0.0 - 2016-09-09
+### Enhancement
+* RequestStore is now a required dependency
+
+### Fix
+* State only flows in one direction into the child threads and not back.
+
 ## v1.1.0 - 2016-06-14
 
 ### Fix
