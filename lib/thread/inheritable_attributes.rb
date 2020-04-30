@@ -9,7 +9,7 @@ class Thread
     _inheritable_attributes = inheritable_attributes.dup
     _initialize(*args) do |*block_args|
       store[:inheritable_attributes] = _inheritable_attributes
-      block.call(block_args)
+      block.call(block_args) 
     end
   end
 
