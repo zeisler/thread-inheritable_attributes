@@ -1,6 +1,7 @@
 # Thread Inheritable Attributes
 
 Passes thread variables to child spawned threads. Main use case is enabling logging in child thread to keep context of a request.
+State only flows in one direction into the child threads and not back.
 
 ## Installation
 
@@ -47,4 +48,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
