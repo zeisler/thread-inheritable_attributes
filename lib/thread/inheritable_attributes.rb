@@ -1,14 +1,15 @@
 require "thread"
+require "request_store"
 
 class Thread
   INHERITABLE_ATTRIBUTES_MUTEX = Mutex.new
   alias_method :_initialize, :initialize
 
   def initialize(*args, &block)
-    inheritable_attributes = Thread.current.inheritable_attributes
-    _initialize(*args) do
-      Thread.current[:inheritable_attributes] = inheritable_attributes
-      block.call
+    _inheritable_attributes = inheritable_attributes.dup
+    _initialize(*args) do |*block_args|
+      store[:inheritable_attributes] = _inheritable_attributes
+      block.call(block_args)
     end
   end
 
@@ -27,7 +28,10 @@ class Thread
   protected
 
   def inheritable_attributes
-    self[:inheritable_attributes] ||= {}
+    store[:inheritable_attributes] ||= {}
   end
 
+  def store
+    RequestStore.store
+  end
 end
