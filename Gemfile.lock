@@ -30,10 +30,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.10)
+  bundler (~> 2.1.4)
   rake (~> 10.0)
   rspec (~> 3.4)
   thread-inheritable_attributes!
 
 BUNDLED WITH
-   1.17.3
+   2.1.4
