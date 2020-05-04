@@ -6,11 +6,16 @@ class Thread
   alias_method :_initialize, :initialize
 
   def initialize(*args, &block)
-    _inheritable_attributes = inheritable_attributes.dup
-    _initialize(*args) do |*block_args|
-      store[:inheritable_attributes] = _inheritable_attributes
-      block.call(block_args) 
+    begin
+      _inheritable_attributes = inheritable_attributes.dup
+      _initialize(*args) do |*block_args|
+        store[:inheritable_attributes] = _inheritable_attributes
+        block.call(block_args)
+      end
+    rescue TypeError
+      block.call(block_args.last)
     end
+
   end
 
   def get_inheritable_attribute(key)

@@ -1,4 +1,5 @@
 require "thread/inheritable_attributes"
+require 'securerandom'
 
 RSpec.describe Thread do
   after { Thread.current.send(:store)[:inheritable_attributes] = nil }
