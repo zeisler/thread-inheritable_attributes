@@ -1,6 +1,7 @@
 # Thread Inheritable Attributes
 
 Passes thread variables to child spawned threads. Main use case is enabling logging in child thread to keep context of a request.
+State only flows in one direction into the child threads and not back.
 
 ## Installation
 
@@ -8,6 +9,16 @@ Add this line to your application's Gemfile:
 
 ```ruby
 gem "thread-inheritable_attributes"
+```
+
+[request_store](https://github.com/steveklabnik/request_store) is a dependency for when working within the context of a multi-threaded web server. 
+In that context Threads can be reused for different request causing state from a previous request to stick around to the next request. 
+Unless your are manually reinitializing or clearing the state in your own Rack Middleware (at the start of a request) it is recommended that you also include the request_store gem.
+
+If using Rails no config is required, except including the gem. When using other Rack based frameworks see [docs](https://github.com/steveklabnik/request_store#no-rails-no-problem) for including middleware.
+
+```ruby
+gem "request_store"
 ```
 
 And then execute:
@@ -41,10 +52,9 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/thread_variable_cascade. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/zeisler/thread_variable_cascade. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](contributor-covenant.org) code of conduct.
 
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
