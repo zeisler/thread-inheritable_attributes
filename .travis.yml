@@ -4,5 +4,14 @@ rvm:
   - 2.2.3
   - 2.3.1
 before_install:
-  - gem install bundler -v 1.17.3
-  - bundle _1.17.3_ install
+  - gem install bundler -v 2.1.4
+  - bundle _2.1.4_ install
+
+env:
+  global:
+    # $GEMFURY_API_KEY (itstaff+readwrite@renewfinancial.com)
+    - secure: "Kiaa0qcA9C8ttEd6lV1nHFoaclcaJIi9GiPGXK+Bnp4i48jb6I9YhOn+D7fS8/XNdYCqHHHbgq35gg5LlN7rNBBaUrfsO4gN4e212Yu5wCCk6Ev5UvDsf5rD4M36QIuJOS64nIk7lnU1llkRnHogRsOM1B8xI95p+W37mv+Zntl3NExTNpRS1mm56tk8tQzhijAspkW57lZFImg1TucEZRKnoTOKK7sHqL9LYKlpCstchLyzUqR2KPIO6PcFLIj5IkOkBRxe5f0qH+ttvM/r2MteTJUsYpa+tOI9/yCiTiFsm9axnJf+NF/OrSHw2QhyP/hUjyFnppxdDjMkdUDtDxv6A1m1MZVr48SnEiOKQTU3lunKdUJX2enJNb+34TuvcfW3gSl70yGRTIz2UKgYTUGvpcnl14popcWX9itg4imXhhi1VRlf1e3ArfeUlVCR5z/s1TjPK5mGCFf+DrbRID+4OBT573WxM1vFpVIuUfVPRfq4em3nSGV+7dgHK55uCjGSFuyEN//zuC9HbvbnVhMD9bEZrVgydBPoFg7fUDcSYGG9SkR2T/KJ0h5HqCj2OdzWUCxoY/B3N39kEJMTpbc/WS5y3zottQIPjj3/yZha6hhcaNct5yOVuU56x2o8CXqBi2DvCkGbinTL4atDsvRNZFMzK+WOsxwsk9NrfLk="
+
+after_success:
+  - gem install -q renew_tools --source https://$GEMFURY_API_KEY@gem.fury.io/renewfinancial/
+  - renew gem release
